@@ -79,14 +79,6 @@ class BookController extends Controller
     {
         $request->validated();
 
-        return new BookResource(
-            (object)[
-                'id' => '1',
-                'name' => 'delete',
-                'author' => 'Erich Maria Remarque',
-                'year' => '1931',
-                'countPages' => '288',
-            ]
-        );
+        return 'delete';
     }
 }
