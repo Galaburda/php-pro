@@ -41,10 +41,6 @@ class BooksService
 
     public function collection(BookIndexDTO $data)
     {
-        $result = $this->booksRepository->selectToFilter($data);
-
-        foreach ($result as $item) {
-            var_dump(new BookResource($item));
-        }
+        return $this->booksRepository->selectToFilter($data);
     }
 }

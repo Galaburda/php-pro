@@ -51,8 +51,7 @@ class BooksRepository
 
     public function selectToFilter(BookIndexDTO $data)
     {
-        //return new BookIterator(
-        return DB::table('books')
+        $resul = DB::table('books')
             ->select('id', 'name', 'year', 'lang', 'pages')
             ->whereBetween(
                 'created_at',
@@ -65,6 +64,9 @@ class BooksRepository
                 $query->where('lang', '=', $lang);
             })
             ->get();
-        // );
+
+        return $resul->map(function ($item) {
+            return new BookIterator($item);
+        });
     }
 }

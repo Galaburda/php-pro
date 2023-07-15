@@ -33,6 +33,8 @@ class BookController extends Controller
         );
 
         $result = $this->booksService->collection($dto);
+
+        return new BookResource($result);
     }
 
     public function store(BookStoreRequest $request)
