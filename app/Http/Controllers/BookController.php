@@ -11,7 +11,6 @@ use App\Repositories\Books\BookIndexDTO;
 use App\Repositories\Books\BooksStoreDTO;
 use App\Repositories\Books\BookUpdateDTO;
 use App\Services\Books\BooksService;
-use Carbon\Carbon;
 
 
 class BookController extends Controller
@@ -34,7 +33,7 @@ class BookController extends Controller
 
         $result = $this->booksService->collection($dto);
 
-        return new BookResource($result);
+        return BookResource::collection($result);
     }
 
     public function store(BookStoreRequest $request)

@@ -8,6 +8,8 @@ use App\Repositories\Books\BooksRepository;
 use App\Repositories\Books\BooksStoreDTO;
 use App\Repositories\Books\BookUpdateDTO;
 use App\Repositories\Books\Iterators\BookIterator;
+use Illuminate\Support\Collection;
+
 
 class BooksService
 {
@@ -39,7 +41,7 @@ class BooksService
         $this->booksRepository->delete($bookId);
     }
 
-    public function collection(BookIndexDTO $data)
+    public function collection(BookIndexDTO $data): Collection
     {
         return $this->booksRepository->selectToFilter($data);
     }
