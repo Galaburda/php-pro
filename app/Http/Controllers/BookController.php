@@ -2,40 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Book\BookIndexRequest;
 use App\Http\Requests\Book\BookRequest;
 use App\Http\Requests\Book\BookStoreRequest;
 use App\Http\Requests\Book\BookUpdateRequest;
 use App\Http\Resources\BookResource;
-use Illuminate\Http\Request;
+use App\Repositories\Books\BookIndexDTO;
+use App\Repositories\Books\BooksStoreDTO;
+use App\Repositories\Books\BookUpdateDTO;
+use App\Services\Books\BooksService;
+use Carbon\Carbon;
+
 
 class BookController extends Controller
 {
-    public function index()
+    public function __construct(
+        protected BooksService $booksService,
+    ) {
+    }
+
+    public function index(BookIndexRequest $request)
     {
-        return new BookResource(
-            (object)[
-                'id' => '1',
-                'name' => 'indexx',
-                'author' => 'Erich Maria Remarque',
-                'year' => '1931',
-                'countPages' => '288',
-            ]
+        $validationData = $request->validated();
+
+        $dto = new BookIndexDTO(
+            $validationData['startDate'],
+            $validationData['endDate'],
+            $validationData['year'],
+            $validationData['lang'],
         );
+
+        $result = $this->booksService->collection($dto);
     }
 
     public function store(BookStoreRequest $request)
     {
-        $request->validated();
+        $validatedData = $request->validated();
 
-        return new BookResource(
-            (object)
-            [
-                'id' => '1',
-                'name' => 'store',
-                'author' => 'store',
-                'year' => '1931',
-                'countPages' => '2888',
-            ]
+        $dto = new BooksStoreDTO(
+            $validatedData['name'],
+            $validatedData['year'],
+            $validatedData['lang'],
+            $validatedData['pages'],
+            now(),
+        );
+
+        return $this->getStoreResponse(
+            new BookResource(
+                $this->booksService->store($dto)
+            )
         );
     }
 
@@ -46,15 +61,9 @@ class BookController extends Controller
     {
         $request->validated();
 
-        return new BookResource(
-            (object)[
-                'id' => '1',
-                'name' => 'show',
-                'author' => 'Erich Maria Remarque',
-                'year' => '1931',
-                'countPages' => '288',
-            ]
-        );
+        $bookIterator = $this->booksService->getById($id);
+
+        return new BookResource($bookIterator);
     }
 
     /**
@@ -62,23 +71,25 @@ class BookController extends Controller
      */
     public function update(BookUpdateRequest $request, string $id)
     {
-        $request->validated();
+        $validatedData = $request->validated();
 
-        return new BookResource(
-            (object)[
-                'id' => '1',
-                'name' => 'update',
-                'author' => 'Erich Maria Remarque',
-                'year' => '1931',
-                'countPages' => '288',
-            ]
+        $dto = new BookUpdateDTO(
+            $validatedData['id'],
+            $validatedData['name'],
+            $validatedData['year'],
+            $validatedData['lang'],
+            $validatedData['pages'],
+            now(),
         );
+
+        $bookIterator = $this->booksService->update($dto);
+
+        return new BookResource($bookIterator);
     }
 
-    public function destroy(BookRequest $request, string $id)
+    public function destroy(BookRequest $request, string $id): void
     {
-        $request->validated();
-
-        return 'delete';
+        $bookId = $request->validated();
+        $this->booksService->delete($bookId['id']);
     }
 }

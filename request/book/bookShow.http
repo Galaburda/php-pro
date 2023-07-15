@@ -1,0 +1,4 @@
+### GET request with a header
+GET http://php-pro.test/api/book/3
+Content-Type: application/json
+Accept: application/json

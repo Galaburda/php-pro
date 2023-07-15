@@ -1,0 +1,11 @@
+
+GET https://php-pro.test/api/book
+Content-Type: application/json
+Accept: application/json
+
+{
+  "startDate": "2010-07-14 21:33:32",
+  "endDate": "2023-07-14 21:10:20",
+  "year": null,
+  "lang": null
+}

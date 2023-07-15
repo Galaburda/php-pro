@@ -1,0 +1,12 @@
+### Send PUT request with json body
+PUT https://php-pro.test/api/book/3
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "som",
+    "year": "2022-07-14",
+    "lang": "ua",
+    "pages": 2344
+}
+

@@ -1,0 +1,11 @@
+POST https://php-pro.test/api/book
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "seertrtemwqafqqqq",
+  "year": "2022-07-14",
+  "lang": "en",
+  "pages": 333
+}
+

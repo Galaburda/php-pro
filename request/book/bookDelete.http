@@ -1,0 +1,7 @@
+DELETE https://php-pro.test/api/book/4
+Content-Type: application/json
+Accept: application/json
+
+{
+
+}

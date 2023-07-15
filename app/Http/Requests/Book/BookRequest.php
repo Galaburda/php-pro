@@ -8,7 +8,7 @@ class BookRequest extends FormRequest
 {
     protected function prepareForValidation(): void
     {
-        $this->merge(['id' => $this->route('id')]);
+        $this->merge(['id' => $this->route('book')]);
     }
 
     /**
@@ -19,7 +19,7 @@ class BookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'integer'],
+            'id' => ['required', 'integer', 'exists:books,id'],
         ];
     }
 }
