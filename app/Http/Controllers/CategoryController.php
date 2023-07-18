@@ -6,7 +6,7 @@ use App\Http\Requests\Category\CategoryRequest;
 use App\Http\Requests\Category\CategoryStoreRequest;
 use App\Http\Requests\Category\CategoryUpdateRequest;
 use App\Http\Resources\CategoryResource;
-use App\Repositories\Categories\CategoryDTO;
+use App\Repositories\Categories\CategoryStoreDTO;
 use App\Repositories\Categories\CategoryUpdateDTO;
 use App\Services\Category\CategoryService;
 
@@ -32,7 +32,7 @@ class CategoryController extends Controller
     {
         $validatedData = $request->validated();
 
-        $dto = new CategoryDTO(
+        $dto = new CategoryStoreDTO(
             $validatedData['name'],
         );
 

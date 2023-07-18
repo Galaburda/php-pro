@@ -21,7 +21,10 @@ class BookIterator
         $this->year = $data->year;
         $this->lang = $data->lang;
         $this->pages = $data->pages;
-        $this->category = new CategoryIterators($data);
+        $this->category = new CategoryIterators(
+            $data->category_id,
+            $data->category_name,
+        );
         $this->createdAt = $data->created_at;
     }
 

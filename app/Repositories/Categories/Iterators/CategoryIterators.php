@@ -4,13 +4,12 @@ namespace App\Repositories\Categories\Iterators;
 
 class CategoryIterators
 {
-    protected int $id;
-    protected string $name;
-
-    public function __construct(object $data)
-    {
-        $this->id = $data->id;
-        $this->name = $data->name;
+    public function __construct(
+        protected int $id,
+        protected string $name,
+    ) {
+        //$this->id = $data->id;
+        //$this->name = $data->name;
     }
 
     /**

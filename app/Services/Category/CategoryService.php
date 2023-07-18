@@ -2,7 +2,7 @@
 
 namespace App\Services\Category;
 
-use App\Repositories\Categories\CategoryDTO;
+use App\Repositories\Categories\CategoryStoreDTO;
 use App\Repositories\Categories\CategoryRepository;
 use App\Repositories\Categories\CategoryUpdateDTO;
 use App\Repositories\Categories\Iterators\CategoryIterators;
@@ -14,7 +14,7 @@ class CategoryService
     ) {
     }
 
-    public function store(CategoryDTO $category): CategoryIterators
+    public function store(CategoryStoreDTO $category): CategoryIterators
     {
         $idCategory = $this->categoryRepository->store($category);
 

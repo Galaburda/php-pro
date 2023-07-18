@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class CategoryRepository
 {
-    public function store(CategoryDTO $category): int
+    public function store(CategoryStoreDTO $category): int
     {
         return DB::table('categories')
             ->insertGetId([
@@ -18,11 +18,11 @@ class CategoryRepository
 
     public function getById(int $idCategory): CategoryIterators
     {
-        return new CategoryIterators(
-            DB::table('categories')
-                ->where('id', '=', $idCategory)
-                ->first()
-        );
+        $category = DB::table('categories')
+            ->where('id', '=', $idCategory)
+            ->first();
+
+        return new CategoryIterators($category->id, $category->name);
     }
 
     public function delete(int $categoryId): void

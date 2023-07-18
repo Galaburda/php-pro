@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Categories;
 
-class CategoryDTO
+class CategoryStoreDTO
 {
     public function __construct(
         protected string $name,

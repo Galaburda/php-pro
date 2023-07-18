@@ -62,7 +62,6 @@ class BooksRepository
                 'lang',
                 'pages',
                 'category_id',
-                'categories.id',
                 'categories.name as category_name',
             )
             ->whereBetween(
