@@ -1,0 +1,8 @@
+
+PUT https://php-pro.test/api/category/3
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "new category"
+}

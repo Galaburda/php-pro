@@ -1,0 +1,3 @@
+### GET request with a header
+GET https://php-pro.test/api/category/3
+Accept: application/json

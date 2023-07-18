@@ -54,9 +54,19 @@ class BooksRepository
     public function selectToFilter(BookIndexDTO $data): Collection
     {
         $resul = DB::table('books')
-            ->select('id', 'name', 'year', 'lang', 'pages')
+            ->select(
+                'books.id',
+                'books.name',
+                'books.created_at',
+                'year',
+                'lang',
+                'pages',
+                'category_id',
+                'categories.id',
+                'categories.name as category_name',
+            )
             ->whereBetween(
-                'created_at',
+                'books.created_at',
                 [$data->getStartDate(), $data->getEndDate()]
             )
             ->when($data->getYear(), function (Builder $query, $year) {
@@ -65,6 +75,7 @@ class BooksRepository
             ->when($data->getLang(), function (Builder $query, $lang) {
                 $query->where('lang', '=', $lang);
             })
+            ->join('categories', 'categories.id', '=', 'books.id')
             ->get();
 
         return $resul->map(function ($item) {

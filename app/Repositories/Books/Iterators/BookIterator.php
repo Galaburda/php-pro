@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Books\Iterators;
 
+use App\Repositories\Categories\Iterators\CategoryIterators;
+
 class BookIterator
 {
     protected int $id;
@@ -9,6 +11,8 @@ class BookIterator
     protected string $year;
     protected string $lang;
     protected int $pages;
+    protected string $createdAt;
+    protected CategoryIterators $category;
 
     public function __construct(object $data)
     {
@@ -17,7 +21,29 @@ class BookIterator
         $this->year = $data->year;
         $this->lang = $data->lang;
         $this->pages = $data->pages;
+        $this->category = new CategoryIterators(
+            $data->category_id,
+            $data->category_name,
+        );
+        $this->createdAt = $data->created_at;
     }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return CategoryIterators
+     */
+    public function getCategory(): CategoryIterators
+    {
+        return $this->category;
+    }
+
 
     /**
      * @return int

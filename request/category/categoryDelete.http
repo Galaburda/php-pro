@@ -1,0 +1,8 @@
+DELETE https://php-pro.test/api/category/1
+Content-Type: application/json
+Accept: application/json
+
+{
+
+}
+

@@ -13,7 +13,8 @@ use App\Repositories\Books\BookUpdateDTO;
 use App\Services\Books\BooksService;
 
 
-class BookController extends Controller
+class
+BookController extends Controller
 {
     public function __construct(
         protected BooksService $booksService,

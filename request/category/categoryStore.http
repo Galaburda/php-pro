@@ -1,0 +1,12 @@
+### Send POST request with json body
+POST https://php-pro.test/api/category
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "content1"
+}
+
+
+
+
