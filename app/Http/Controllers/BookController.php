@@ -30,11 +30,17 @@ BookController extends Controller
             $validationData['endDate'],
             $validationData['year'],
             $validationData['lang'],
+            $validationData['lastId'],
         );
 
         $result = $this->booksService->collection($dto);
 
-        return BookResource::collection($result);
+        $lastId = $result->last();
+
+        return BookResource::collection($result)
+            ->additional([
+                'lastKey' => $lastId->getId(),
+            ]);
     }
 
     public function store(BookStoreRequest $request)

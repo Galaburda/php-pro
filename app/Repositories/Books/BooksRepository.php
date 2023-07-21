@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Books;
 
-use App\Repositories\Books\Iterators\BookIndexIterator;
 use App\Repositories\Books\Iterators\BookIterator;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
@@ -53,7 +52,7 @@ class BooksRepository
 
     public function selectToFilter(BookIndexDTO $data): Collection
     {
-        $resul = DB::table('books')
+        $query = DB::table('books')
             ->select(
                 'books.id',
                 'books.name',
@@ -63,6 +62,12 @@ class BooksRepository
                 'pages',
                 'category_id',
                 'categories.name as category_name',
+            )
+            ->join(
+                'categories',
+                'categories.id',
+                '=',
+                'books.id'
             )
             ->whereBetween(
                 'books.created_at',
@@ -74,10 +79,11 @@ class BooksRepository
             ->when($data->getLang(), function (Builder $query, $lang) {
                 $query->where('lang', '=', $lang);
             })
-            ->join('categories', 'categories.id', '=', 'books.id')
+            ->where('books.id', '>', $data->getLastId())
+            ->limit(5)
             ->get();
 
-        return $resul->map(function ($item) {
+        return $query->map(function ($item) {
             return new BookIterator($item);
         });
     }

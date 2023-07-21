@@ -4,6 +4,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
+  "lastId": 200,
   "startDate": "2010-07-14 21:33:32",
   "endDate": "2023-07-14 21:10:20",
   "year": null,
