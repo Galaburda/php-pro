@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class BooksRepository
 {
-    private Collection $books;
-
     public function store(BooksStoreDTO $data): int
     {
         return DB::table('books')
