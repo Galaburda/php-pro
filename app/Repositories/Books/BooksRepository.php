@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Books;
 
-use App\Repositories\Books\Iterators\BookIndexIterator;
 use App\Repositories\Books\Iterators\BookIterator;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
