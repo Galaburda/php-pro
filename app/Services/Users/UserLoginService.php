@@ -26,11 +26,13 @@ class UserLoginService
         if (auth()->attempt($data) === false) {
             return null;
         }
+        //TODO вибірку краще робити по ID якщо є така можливість. буде працювати швидше
         return $this->userRepository->getByEmail($data['email']);
     }
 
     public function setToken(UsersIterators $user): ?PersonalAccessTokenResult
     {
+        //TODO $user не може в тебе бути null
         if ($user === null) {
             return null;
         }
