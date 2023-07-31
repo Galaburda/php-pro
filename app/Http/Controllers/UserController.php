@@ -13,53 +13,5 @@ class UserController extends Controller
         protected UserLoginService $userLoginService,
     ) {
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function login(UserLoginRequest $request)
-    {
-        $validatedData = $request->validated();
-
-        $user = $this->userLoginService->login($validatedData);
-
-        if (is_null($user) === true) {
-            return 'email or password incorrect';
-        }
-
-        $token = $this->userLoginService->getToken();
-
-        $userResource = new UserResource($user);
-
-        return $userResource->additional([
-            'Bearer' => $token,
-        ]);
-    }
 }
 
