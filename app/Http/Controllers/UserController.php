@@ -16,24 +16,19 @@ class UserController extends Controller
 
     public function login(UserLoginRequest $request)
     {
-        //TODO неймінг методів.
-        // бачу в деяких місцях робиш добре, а деколи - ні.
-        // підніми пліз тему неймінгу на уроці, щоб ми обговорили те де ти плутаєшся,
-        // або не до кінця розумієш.
-        // це рекомендація і якщо не хочеш піднімати цю тему на уроці чи розбирати
-        // цей код то не потрібно себе змушувати)
-        // як варіант можеш мені в приват написати. постараюсь пояснити детальніше)))
         $validatedData = $request->validated();
 
-        $user = $this->userLoginService->returnUserIfExists($validatedData);
+        $user = $this->userLoginService->login($validatedData);
 
-        $token = $this->userLoginService->setToken($user);
+        if (is_null($user) === true) {
+            return 'email or password incorrect';
+        }
 
-        $resource = new UserResource(
-            $this->userLoginService->getById(auth()->user()->id)
-        );
+        $token = $this->userLoginService->getToken();
 
-        return $resource->additional([
+        $userResource = new UserResource($user);
+
+        return $userResource->additional([
             'Bearer' => $token,
         ]);
     }

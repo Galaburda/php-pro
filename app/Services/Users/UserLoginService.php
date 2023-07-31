@@ -12,31 +12,31 @@ use Laravel\Passport\PersonalAccessTokenResult;
 class UserLoginService
 {
     public function __construct(
-        protected UserRepository $userRepository
+        protected UserRepository $userRepository,
+        protected UserAuthService $authService,
     ) {
     }
 
+    public function login(array $data): ?UsersIterators
+    {
+        $isCorrectUserData = $this->authService->isCorrectUserData($data);
+
+        if ($isCorrectUserData === false) {
+            return null;
+        }
+
+        $id = $this->authService->getUserid();
+
+        return $this->userRepository->getById($id);
+    }
     public function getById(int $id): UsersIterators
     {
         return $this->userRepository->getById($id);
     }
 
-    public function returnUserIfExists(mixed $data): ?UsersIterators
+    public function getToken(): PersonalAccessTokenResult
     {
-        if (auth()->attempt($data) === false) {
-            return null;
-        }
-        //TODO вибірку краще робити по ID якщо є така можливість. буде працювати швидше
-        return $this->userRepository->getByEmail($data['email']);
+        return $this->authService->createToken();
     }
 
-    public function setToken(UsersIterators $user): ?PersonalAccessTokenResult
-    {
-        //TODO $user не може в тебе бути null
-        if ($user === null) {
-            return null;
-        }
-
-        return auth()->user()->createToken(config('app.name'));
-    }
 }
