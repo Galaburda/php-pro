@@ -13,20 +13,21 @@ class UserController extends Controller
         protected UserLoginService $userLoginService,
     ) {
     }
-
     public function login(UserLoginRequest $request)
     {
         $validatedData = $request->validated();
 
-        $user = $this->userLoginService->returnUserIfExists($validatedData);
+        $user = $this->userLoginService->login($validatedData);
 
-        $token = $this->userLoginService->setToken($user);
+        if (is_null($user) === true) {
+            return 'email or password incorrect';
+        }
 
-        $resource = new UserResource(
-            $this->userLoginService->getById(auth()->user()->id)
-        );
+        $token = $this->userLoginService->getToken();
 
-        return $resource->additional([
+        $userResource = new UserResource($user);
+
+        return $userResource->additional([
             'Bearer' => $token,
         ]);
     }
