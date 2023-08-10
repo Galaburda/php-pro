@@ -43,6 +43,27 @@ BookController extends Controller
             ]);
     }
 
+    public function indexIterator(BookIndexRequest $request)
+    {
+//        $validationData = $request->validated();
+//
+//        $dto = new BookIndexDTO(
+//            $validationData['startDate'],
+//            $validationData['endDate'],
+//            $validationData['year'],
+//            $validationData['lang'],
+//            $validationData['lastId'],
+//        );
+
+        $result = $this->booksService->selectToFilterIterator();
+        //$result = $this->booksService->selectToFilterIterator($dto);
+
+        //return BookResource::collection($result->getIterator()->getArrayCopy());
+        var_dump(
+            BookResource::collection($result->getIterator()->getArrayCopy())
+        );
+    }
+
     public function store(BookStoreRequest $request)
     {
         $validatedData = $request->validated();
