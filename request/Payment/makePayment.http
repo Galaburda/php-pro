@@ -1,0 +1,21 @@
+#формуємо id нашої оплати і відправляємо форонту
+GET https://php-pro.test/api/payment/makePayment/1
+Content-Type: application/json
+Accept: application/json
+
+
+{
+}
+
+
+###############
+POST https://php-pro.test/api/payment/confirm/1
+Content-Type: application/json
+Accept: application/json
+
+
+{
+    "paymentId": "93F90737ND903171B"
+}
+
+

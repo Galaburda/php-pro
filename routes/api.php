@@ -2,8 +2,9 @@
 
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Payments\ConfirmPaymentController;
+use App\Http\Controllers\Payments\PaymentController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,9 +20,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', [UserController::class, 'login']);
 
-Route::middleware(["auth:api"])->group(function () {
-    Route::apiResources(['book' => BookController::class]);
-    Route::apiResources(['category' => CategoryController::class]);
-});
+//Route::middleware(["auth:api"])->group(function () {
+Route::apiResources(['book' => BookController::class]);
+Route::apiResources(['category' => CategoryController::class]);
+//});
 
+Route::get(
+    'payment/makePayment/{system}',
+    [PaymentController::class, 'createPayment']
+);
 
+Route::post(
+    'payment/confirm/{system}',
+    [PaymentController::class, 'confirmPayment']
+);
