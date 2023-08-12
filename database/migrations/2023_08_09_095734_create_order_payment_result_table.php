@@ -19,6 +19,8 @@ return new class extends Migration {
             $table->boolean('success');
             $table->unsignedFloat('amount');
             $table->unsignedSmallInteger('currency');
+            $table->string('payer_id');
+            $table->string('email');
             $table->timestamps();
         });
     }

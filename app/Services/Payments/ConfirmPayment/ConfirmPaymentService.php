@@ -22,9 +22,9 @@ class ConfirmPaymentService
 
     public function handle(
         Payments $payments,
-        string $paymentId
+        string $orderId
     ): ConfirmPaymentDTO {
-        $dto = new ConfirmPaymentDTO($payments, $paymentId);
+        $dto = new ConfirmPaymentDTO($payments, $orderId);
 
         $result = $this->pipeline
             ->send($dto)

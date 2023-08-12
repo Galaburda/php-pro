@@ -4,6 +4,7 @@ namespace App\Services\Payments\Factory\Paypal;
 
 use App\Enums\Currency;
 use App\Enums\PaymentsStatus;
+use App\Services\Payments\Factory\DTO\PaypalValidateDTO;
 use App\Services\Payments\Factory\PaymentInterface;
 use App\Services\Payments\Factory\DTO\MakePaymentDTO;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
@@ -44,17 +45,17 @@ class PaypalService implements PaymentInterface
         return '';
     }
 
+    // цей метод повинен повертати обєкт DTO
     public function validatePayment(string $paymentId)
     {
         $this->provider->setApiCredentials(config('paypal'));
         $paypalToken = $this->provider->getAccessToken();
         $response = $this->provider->capturePaymentOrder($paymentId);
 
-        return $response['status'] === 'COMPLETED';
+        return new PaypalValidateDTO($response);
+        //return $response['status'] === 'COMPLETED';
 
         //return $response;
-        //$response['config']['client_id'];
-        // return new PaymentValidateDTO(getStatus($response['getStatus']), $response[order_id], ))
     }
 
     private function getCurrency(Currency $currency): string

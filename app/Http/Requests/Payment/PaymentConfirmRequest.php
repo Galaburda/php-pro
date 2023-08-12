@@ -20,7 +20,7 @@ class PaymentConfirmRequest extends FormRequest
                 'string',
                 'min:1',
                 'max:999',
-                'unique:order_payment_result,payment_id'
+                'unique:order_payment_result,payment_id',
             ],
         ];
     }

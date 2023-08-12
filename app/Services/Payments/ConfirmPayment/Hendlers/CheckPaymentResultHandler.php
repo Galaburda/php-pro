@@ -5,6 +5,7 @@ namespace App\Services\Payments\ConfirmPayment\Hendlers;
 use App\Enums\Payments;
 use App\Services\Payments\ConfirmPayment\ConfirmPaymentDTO;
 use App\Services\Payments\ConfirmPayment\ConfirmPaymentInterface;
+use App\Services\Payments\Factory\DTO\PaypalValidateDTO;
 use App\Services\Payments\Factory\PaymentFactory;
 use Closure;
 
@@ -18,16 +19,22 @@ class CheckPaymentResultHandler implements ConfirmPaymentInterface
     public function handle(
         ConfirmPaymentDTO $confirmPaymentDTO,
         Closure $next
-    ): ConfirmPaymentDTO {
+    ): ConfirmPaymentDTO
+    {
         $paymentService = $this->paymentFactory->getInstance(
             $confirmPaymentDTO->getPayments()
         );
 
-        $success = $paymentService->validatePayment(
-            $confirmPaymentDTO->getPaymentId()
+        $validatedData = $paymentService->validatePayment(
+            $confirmPaymentDTO->getOrderId()
         );
 
-        $confirmPaymentDTO->setPaymentSuccess($success);
+        /** @var  $validatedData PaypalValidateDTO */
+        $confirmPaymentDTO->setPayerId($validatedData->getUserId());
+        $confirmPaymentDTO->setEmail($validatedData->getEmail());
+        $confirmPaymentDTO->setPaymentId($validatedData->getPaymentId());
+
+        //$confirmPaymentDTO->setPaymentSuccess();
 
         return $next($confirmPaymentDTO);
     }
