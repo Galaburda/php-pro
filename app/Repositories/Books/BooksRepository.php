@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Books;
 
+use App\Models\Book;
 use App\Repositories\Books\Iterators\BookIterator;
+use App\Repositories\Books\Iterators\BooksIterator;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -86,5 +88,53 @@ class BooksRepository
         return $query->map(function ($item) {
             return new BookIterator($item);
         });
+    }
+
+    public function selectToFilterIterator(): BooksIterator
+    {
+        $query = DB::table('books')
+            ->select(
+                'books.id',
+                'books.name',
+                'books.created_at',
+                'year',
+                'lang',
+                'pages',
+                'category_id',
+                'categories.name as category_name',
+                'authors.name as author_name',
+            )
+            ->join(
+                'categories',
+                'categories.id',
+                '=',
+                'books.id'
+            )
+            ->join(
+                'author_book',
+                'books.id',
+                '=',
+                'author_book.book_id'
+            )
+            ->join(
+                'authors',
+                'authors.id',
+                '=',
+                'author_book.author_id'
+            )
+            ->orderBy('id')
+            ->limit(50000)
+            ->get();
+
+        return new BooksIterator($query);
+    }
+
+    public function selectToFilterModel()
+    {
+        return Book::query()
+            ->with(['category', 'authors'])
+            ->orderBy('id')
+            ->limit(48000)
+            ->get();
     }
 }

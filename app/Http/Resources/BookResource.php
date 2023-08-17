@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+
+use App\Repositories\Authors\Iterators\AuthorsWithoutBooksIterator;
 use App\Repositories\Books\Iterators\BookIterator;
 use App\Repositories\Categories\Iterators\CategoryIterators;
 use Illuminate\Http\Request;
@@ -10,6 +12,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class BookResource extends JsonResource
 {
     public $collections = CategoryIterators::class;
+
     /**
      * Transform the resource into an array.
      *
@@ -26,6 +29,7 @@ class BookResource extends JsonResource
             'lang' => $resource->getLang(),
             'pages' => $resource->getPages(),
             'category' => new CategoryResource($resource->getCategory()),
+            'authors' => new AuthorResource($resource->getAuthors()),
             'created_at' => $resource->getCreatedAt(),
         ];
     }
