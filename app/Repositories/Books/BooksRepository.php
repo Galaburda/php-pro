@@ -123,7 +123,7 @@ class BooksRepository
                 'author_book.author_id'
             )
             ->orderBy('id')
-            ->limit(100)
+            ->limit(50000)
             ->get();
 
         return new BooksIterator($query);
@@ -134,7 +134,7 @@ class BooksRepository
         return Book::query()
             ->with(['category', 'authors'])
             ->orderBy('id')
-            ->limit(100)
+            ->limit(48000)
             ->get();
     }
 }
