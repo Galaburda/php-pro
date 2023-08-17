@@ -26,6 +26,8 @@ class BookResource extends JsonResource
             'lang' => $resource->getLang(),
             'pages' => $resource->getPages(),
             'category' => new CategoryResource($resource->getCategory()),
+            //це колекція collection як зробити
+            'author' => new AuthorResource($resource->getAuthor()),
             'created_at' => $resource->getCreatedAt(),
         ];
     }

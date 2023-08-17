@@ -47,9 +47,14 @@ class BooksService
         return $this->booksRepository->selectToFilter($data);
     }
 
-    // public function selectToFilterIterator(BookIndexDTO $data): BooksIterator
+
     public function selectToFilterIterator(): BooksIterator
     {
         return $this->booksRepository->selectToFilterIterator();
+    }
+
+    public function selectToFilterModel()
+    {
+        return $this->booksRepository->selectToFilterModel();
     }
 }

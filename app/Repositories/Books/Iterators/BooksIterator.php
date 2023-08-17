@@ -12,6 +12,8 @@ class BooksIterator implements IteratorAggregate
 
     public function __construct(Collection $collection)
     {
+        //підготувати дані до потрібної нам структури
+        //згрупувати по group by author id
         foreach ($collection as $item) {
             $this->data[] = new BookIterator($item);
         }

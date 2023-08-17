@@ -6,6 +6,7 @@ use App\Http\Requests\Book\BookIndexRequest;
 use App\Http\Requests\Book\BookRequest;
 use App\Http\Requests\Book\BookStoreRequest;
 use App\Http\Requests\Book\BookUpdateRequest;
+use App\Http\Resources\BookModelResource;
 use App\Http\Resources\BookResource;
 use App\Repositories\Books\BookIndexDTO;
 use App\Repositories\Books\BooksStoreDTO;
@@ -45,22 +46,16 @@ BookController extends Controller
 
     public function indexIterator(BookIndexRequest $request)
     {
-//        $validationData = $request->validated();
-//
-//        $dto = new BookIndexDTO(
-//            $validationData['startDate'],
-//            $validationData['endDate'],
-//            $validationData['year'],
-//            $validationData['lang'],
-//            $validationData['lastId'],
-//        );
-
         $result = $this->booksService->selectToFilterIterator();
-        //$result = $this->booksService->selectToFilterIterator($dto);
+        return BookResource::collection($result->getIterator()->getArrayCopy());
+    }
 
-        //return BookResource::collection($result->getIterator()->getArrayCopy());
-        var_dump(
-            BookResource::collection($result->getIterator()->getArrayCopy())
+    public function indexModel(BookIndexRequest $request)
+    {
+        $result = $this->booksService->selectToFilterModel();
+
+        return BookModelResource::collection(
+            $result->getIterator()->getArrayCopy()
         );
     }
 

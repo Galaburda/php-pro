@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->unique('name', 'books_name_unique');
+            //$table->unique('name', 'books_name_unique');
             $table->index(['year', 'lang'], 'books_year_lang_index');
             $table->index('created_at', 'books_created_at_index');
             $table->index('category_id', 'books_category_id');
@@ -26,8 +26,9 @@ return new class extends Migration {
         Schema::table('books', function (Blueprint $table) {
             $table->dropIndex(
                 [
-                    'books_name_unique',
-                    'books_year_lang_index',
+
+
+                    //'books_year_lang_index',
                     'books_created_at_index',
                     'books_category_id',
                 ]

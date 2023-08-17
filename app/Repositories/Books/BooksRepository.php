@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Books;
 
+use App\Models\Book;
 use App\Repositories\Books\Iterators\BookIterator;
 use App\Repositories\Books\Iterators\BooksIterator;
 use Illuminate\Database\Query\Builder;
@@ -101,6 +102,7 @@ class BooksRepository
                 'pages',
                 'category_id',
                 'categories.name as category_name',
+                'authors.name as author_name',
             )
             ->join(
                 'categories',
@@ -108,20 +110,31 @@ class BooksRepository
                 '=',
                 'books.id'
             )
-//            ->whereBetween(
-//                'books.created_at',
-//                [$data->getStartDate(), $data->getEndDate()]
-//            )
-//            ->when($data->getYear(), function (Builder $query, $year) {
-//                $query->where('year', '=', $year);
-//            })
-//            ->when($data->getLang(), function (Builder $query, $lang) {
-//                $query->where('lang', '=', $lang);
-//            })
-//            ->where('books.id', '>', $data->getLastId())
+            ->join(
+                'author_book',
+                'books.id',
+                '=',
+                'author_book.book_id'
+            )
+            ->join(
+                'authors',
+                'authors.id',
+                '=',
+                'author_book.author_id'
+            )
+            ->orderBy('id')
             ->limit(100)
             ->get();
 
         return new BooksIterator($query);
+    }
+
+    public function selectToFilterModel()
+    {
+        return Book::query()
+            ->with(['category', 'authors'])
+            ->orderBy('id')
+            ->limit(100)
+            ->get();
     }
 }

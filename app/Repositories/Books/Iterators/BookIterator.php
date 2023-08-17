@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Books\Iterators;
 
+use App\Repositories\Authors\Iterators\AuthorIterator;
 use App\Repositories\Categories\Iterators\CategoryIterators;
 
 class BookIterator
@@ -13,6 +14,7 @@ class BookIterator
     protected int $pages;
     protected string $createdAt;
     protected CategoryIterators $category;
+    protected AuthorIterator $author;
 
     public function __construct(object $data)
     {
@@ -25,7 +27,19 @@ class BookIterator
             $data->category_id,
             $data->category_name,
         );
+        //в множині тут повинна бути колекція
+        $this->author = new AuthorIterator(
+            $data->author_name,
+        );
         $this->createdAt = $data->created_at;
+    }
+
+    /**
+     * @return AuthorIterator
+     */
+    public function getAuthor(): AuthorIterator
+    {
+        return $this->author;
     }
 
     /**
