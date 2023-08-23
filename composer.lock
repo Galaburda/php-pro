@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ddc5e99eac8ac0485fe4d69e71422370",
+    "content-hash": "3b35d076beb23a0fc9a404b75f50ca8e",
     "packages": [
         {
             "name": "brick/math",
@@ -1103,6 +1103,45 @@
                 }
             ],
             "time": "2021-10-07T12:57:01+00:00"
+        },
+        {
+            "name": "gvladis/example-package",
+            "version": "0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Galaburda/example-package.git",
+                "reference": "84ef4829a5a9b63101340e28ffb100c8f6860ce6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Galaburda/example-package/zipball/84ef4829a5a9b63101340e28ffb100c8f6860ce6",
+                "reference": "84ef4829a5a9b63101340e28ffb100c8f6860ce6",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gvladis\\ExamplePackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "gvladis"
+                }
+            ],
+            "description": "connection of payment systems",
+            "support": {
+                "issues": "https://github.com/Galaburda/example-package/issues",
+                "source": "https://github.com/Galaburda/example-package/tree/0.0.2"
+            },
+            "time": "2023-08-23T05:13:52+00:00"
         },
         {
             "name": "laravel/framework",
