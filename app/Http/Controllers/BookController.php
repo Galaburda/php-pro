@@ -12,15 +12,15 @@ use App\Repositories\Books\BookIndexDTO;
 use App\Repositories\Books\BooksStoreDTO;
 use App\Repositories\Books\BookUpdateDTO;
 use App\Services\Books\BooksService;
+use Illuminate\Support\Facades\Cache;
+use App\Services\Books\CacheService;
 
-use function PHPUnit\Framework\assertFileDoesNotExist;
 
-
-class
-BookController extends Controller
+class BookController extends Controller
 {
     public function __construct(
         protected BooksService $booksService,
+        protected CacheService $cacheService,
     ) {
     }
 
@@ -48,7 +48,18 @@ BookController extends Controller
 
     public function indexIterator(BookIndexRequest $request)
     {
-        $result = $this->booksService->selectToFilterIterator();
+        $validationData = $request->validated();
+
+        $dto = new BookIndexDTO(
+            $validationData['startDate'],
+            $validationData['endDate'],
+            $validationData['year'],
+            $validationData['lang'],
+            $validationData['lastId'],
+        );
+
+        $result = $this->cacheService->selectToFilterIterator($dto);
+
         return BookResource::collection($result->getIterator()->getArrayCopy());
     }
 
