@@ -6,11 +6,14 @@ use App\Http\Requests\Book\BookIndexRequest;
 use App\Http\Requests\Book\BookRequest;
 use App\Http\Requests\Book\BookStoreRequest;
 use App\Http\Requests\Book\BookUpdateRequest;
+use App\Http\Resources\BookModelResource;
 use App\Http\Resources\BookResource;
 use App\Repositories\Books\BookIndexDTO;
 use App\Repositories\Books\BooksStoreDTO;
 use App\Repositories\Books\BookUpdateDTO;
 use App\Services\Books\BooksService;
+
+use function PHPUnit\Framework\assertFileDoesNotExist;
 
 
 class
@@ -41,6 +44,21 @@ BookController extends Controller
             ->additional([
                 'lastKey' => $lastId->getId(),
             ]);
+    }
+
+    public function indexIterator(BookIndexRequest $request)
+    {
+        $result = $this->booksService->selectToFilterIterator();
+        return BookResource::collection($result->getIterator()->getArrayCopy());
+    }
+
+    public function indexModel(BookIndexRequest $request)
+    {
+        $result = $this->booksService->selectToFilterModel();
+
+        return BookModelResource::collection(
+            $result->getIterator()->getArrayCopy()
+        );
     }
 
     public function store(BookStoreRequest $request)
