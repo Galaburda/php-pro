@@ -6,3 +6,4 @@ Accept: application/json
   "email": "test@test.ua",
   "password": 123456
 }
+

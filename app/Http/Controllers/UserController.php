@@ -6,6 +6,7 @@ use App\Http\Requests\User\UserLoginRequest;
 use App\Http\Resources\UserResource;
 use App\Services\Users\Login\LoginDTO;
 use App\Services\Users\Login\LoginService;
+use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
