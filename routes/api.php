@@ -22,10 +22,14 @@ Route::post('login', [UserController::class, 'login']);
 Route::get('book/indexIterator', [BookController::class, 'indexIterator']);
 Route::get('book/indexModel', [BookController::class, 'indexModel']);
 
-//Route::middleware(["auth:api"])->group(function () {
-Route::apiResources(['book' => BookController::class]);
-Route::apiResources(['category' => CategoryController::class]);
-//});
+Route::middleware(["auth:api", "verified.user.data"])->group(function () {
+    Route::apiResources(['book' => BookController::class]);
+    Route::apiResources(['category' => CategoryController::class]);
+    Route::get(
+        'test/index',
+        [\App\Http\Controllers\TestController::class, 'index']
+    );
+});
 
 Route::get(
     'payment/makePayment/{system}',
