@@ -10,6 +10,7 @@ use App\Repositories\Books\BookUpdateDTO;
 use App\Repositories\Books\Iterators\BookIterator;
 use App\Repositories\Books\Iterators\BooksIterator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Redis;
 
 
 class BooksService

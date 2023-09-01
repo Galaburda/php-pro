@@ -69,19 +69,31 @@ class BooksRepository
                 'categories',
                 'categories.id',
                 '=',
-                'books.id'
+                'books.category_id'
             )
-            ->whereBetween(
-                'books.created_at',
-                [$data->getStartDate(), $data->getEndDate()]
+            ->join(
+                'author_book',
+                'books.id',
+                '=',
+                'author_book.book_id'
             )
-            ->when($data->getYear(), function (Builder $query, $year) {
-                $query->where('year', '=', $year);
-            })
-            ->when($data->getLang(), function (Builder $query, $lang) {
-                $query->where('lang', '=', $lang);
-            })
-            ->where('books.id', '>', $data->getLastId())
+            ->join(
+                'authors',
+                'authors.id',
+                '=',
+                'author_book.author_id'
+            )
+//            ->whereBetween(
+//                'books.created_at',
+//                [$data->getStartDate(), $data->getEndDate()]
+//            )
+//            ->when($data->getYear(), function (Builder $query, $year) {
+//                $query->where('year', '=', $year);
+//            })
+//            ->when($data->getLang(), function (Builder $query, $lang) {
+//                $query->where('lang', '=', $lang);
+//            })
+//            ->where('books.id', '>', $data->getLastId())
             ->limit(5)
             ->get();
 
@@ -108,7 +120,7 @@ class BooksRepository
                 'categories',
                 'categories.id',
                 '=',
-                'books.id'
+                'books.category_id'
             )
             ->join(
                 'author_book',
@@ -123,7 +135,7 @@ class BooksRepository
                 'author_book.author_id'
             )
             ->orderBy('id')
-            ->limit(50000)
+            ->limit(50)
             ->get();
 
         return new BooksIterator($query);

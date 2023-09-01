@@ -14,7 +14,7 @@ return new class extends Migration {
             //$table->unique('name', 'books_name_unique');
             $table->index(['year', 'lang'], 'books_year_lang_index');
             $table->index('created_at', 'books_created_at_index');
-            $table->index('category_id', 'books_category_id');
+            $table->index('category_id', 'books_category_id_index');
         });
     }
 
@@ -23,16 +23,16 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('books', function (Blueprint $table) {
-            $table->dropIndex(
-                [
-
-
-                    //'books_year_lang_index',
-                    'books_created_at_index',
-                    'books_category_id',
-                ]
-            );
-        });
+        //  Schema::table('books', function (Blueprint $table) {
+//            $table->dropIndex(
+//                [
+//
+//
+//                    'books_year_lang_index',
+//                    'books_created_at_index',
+//                    'books_category_id_index',
+//                ]
+        //  );
+        //   });
     }
 };
