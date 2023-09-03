@@ -9,6 +9,7 @@ class WebShareService
 {
     public function __construct(
         public Client $client,
+        public ProxyStorage $proxyStorage,
     ) {
     }
 
@@ -29,19 +30,14 @@ class WebShareService
 
         $content = $response->getBody()->getContents();
 
-        $proxies = [];
-
         foreach (json_decode($content)->results as $result) {
-            $proxy = [
-                'username' => $result->username,
-                'password' => $result->password,
-                'proxy_address' => $result->proxy_address,
-                'port' => $result->port,
-            ];
-            Redis::lpush('proxies', json_encode($proxy));
-
-            $proxies [] = $proxy;
+            $dto = new ProxyDTO(
+                $result->username,
+                $result->password,
+                $result->proxy_address,
+                $result->port,
+            );
+            $this->proxyStorage->lpush($dto);
         }
-        var_dump($proxies);
     }
 }
