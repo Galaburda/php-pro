@@ -13,18 +13,23 @@ class CacheService
 {
     public function __construct(
         protected BooksRepository $booksRepository,
+        protected AllBooksStorage $allBooksStorage,
     ) {
     }
 
-    public function selectToFilterIterator(BookIndexDTO $data): BooksRepository
+    public function selectToFilterIterator(BookIndexDTO $data)
     {
-        $seconds = 120;
-        return Cache::remember(
-            'books_' . $data->getLastId(),
-            $seconds,
-            function () use ($data) {
-                return $this->booksRepository->selectToFilterIterator($data);
-            }
+        $hasData = $this->allBooksStorage->has($data->getLastId());
+
+        if ($hasData === true) {
+            return $this->allBooksStorage->get($data->getLastId());
+        }
+
+        $data = $this->booksRepository->selectToFilterIterator(
+            $data->getLastId()
         );
+        $this->allBooksStorage->set($data->getLastId(), $data);
+
+        return $data;
     }
 }

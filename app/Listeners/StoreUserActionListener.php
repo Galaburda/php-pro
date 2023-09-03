@@ -3,50 +3,31 @@
 namespace App\Listeners;
 
 use App\Events\StoreUserAction;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redis;
+use App\Services\RouteService\MultipleRouteService\MultipleRouteService;
+use App\Services\RouteService\SingleRouteService\SingleRouteService;
+use Illuminate\Pipeline\Pipeline;
+
 
 class StoreUserActionListener
 {
-    /**
-     * Create the event listener.
-     */
-    public function __construct()
-    {
-        //
+    protected const HANDLERS
+        = [
+            SingleRouteService::class,
+            MultipleRouteService::class,
+        ];
+
+    public function __construct(
+        protected Pipeline $pipeline,
+    ) {
     }
 
-    /**
-     * Handle the event.
-     */
-    public function handle(StoreUserAction $event): void
+    public function handle(StoreUserAction $event)
     {
-        $singleRoute = $event->data->getRoute() . '_' . $event->data->getUserId(
-            );
+        $result = $this->pipeline
+            ->send($event)
+            ->through(self::HANDLERS)
+            ->then(fn(StoreUserAction $event) => $event);
 
-        if (Redis::get($singleRoute) === null) {
-            Redis::set($singleRoute, 0, 'EX', 60);
-        }
-
-        $count = Redis::incr($singleRoute);
-
-        if ($count > 10) {
-            Log::info('single route');
-        }
-
-
-        $ollRouteOneUser = $event->data->getUserId();
-
-        if (Redis::get($ollRouteOneUser) === null) {
-            Redis::set($ollRouteOneUser, 0, 'EX', 60);
-        }
-
-        $allRouteUser = Redis::incr($ollRouteOneUser);
-
-        if ($allRouteUser > 30) {
-            Log::info('multiple route');
-        }
+        return $result;
     }
 }
