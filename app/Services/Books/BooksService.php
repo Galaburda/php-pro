@@ -2,6 +2,7 @@
 
 namespace App\Services\Books;
 
+use App\Exceptions\BookDestroyException;
 use App\Http\Resources\BookResource;
 use App\Repositories\Books\BookIndexDTO;
 use App\Repositories\Books\BooksRepository;
@@ -40,6 +41,12 @@ class BooksService
 
     public function delete($bookId): void
     {
+        $exist = $this->booksRepository->existById($bookId);
+
+        if ($exist === false) {
+            throw new BookDestroyException('User ID not found');
+        }
+
         $this->booksRepository->delete($bookId);
     }
 

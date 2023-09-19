@@ -149,4 +149,11 @@ class BooksRepository
             ->limit(48000)
             ->get();
     }
+
+    public function existById(int $id): bool
+    {
+        return DB::table('books')
+            ->where('id', '=', $id)
+            ->exists();
+    }
 }

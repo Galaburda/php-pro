@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\BookDestroyException;
 use App\Http\Requests\Book\BookIndexRequest;
 use App\Http\Requests\Book\BookRequest;
 use App\Http\Requests\Book\BookStoreRequest;
@@ -124,9 +125,17 @@ class BookController extends Controller
         return new BookResource($bookIterator);
     }
 
-    public function destroy(BookRequest $request, string $id): void
+    /**
+     * @throws BookDestroyException
+     */
+    public function destroy(BookRequest $request, string $id)
     {
-        $bookId = $request->validated();
-        $this->booksService->delete($bookId['id']);
+        try {
+            $bookId = $request->validated();
+            $this->booksService->delete($bookId['id']);
+        } catch (BookDestroyException $exception) {
+            $exception->getMessage();
+        }
+        //return response()->json(['error' => 'true']);
     }
 }
