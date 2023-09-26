@@ -1,20 +1,19 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Word;
 
-use App\Exceptions\NoHaveBalanceException;
 use App\Services\SuperVisor\ProcessDTO;
 use App\Services\SuperVisor\SuperVisorService;
 use Illuminate\Console\Command;
 
-class SupervisorExampleProcess extends Command
+class SupervisorStartPublishWordCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:supervisor-process';
+    protected $signature = 'app:supervisor-start-publish-word-command';
 
     /**
      * The console command description.
@@ -29,10 +28,11 @@ class SupervisorExampleProcess extends Command
     public function handle(SuperVisorService $service)
     {
         $process = new ProcessDTO([
-            'name' => 'redisSubscribe',
-            'command' => 'php /var/www/html/artisan app:redis-subscribe',
+            'name' => 'PublishWord',
+            'command' => 'php /var/www/html/artisan app:publish-word-command',
             'number' => 1
         ]);
+
         $hasSection = $service->hasSection($process->getName());
         if ($hasSection === false) {
             $service->addProcessesConfig($process);
