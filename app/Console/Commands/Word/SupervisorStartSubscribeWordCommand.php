@@ -1,38 +1,25 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Word;
 
-use App\Exceptions\NoHaveBalanceException;
 use App\Services\SuperVisor\ProcessDTO;
 use App\Services\SuperVisor\SuperVisorService;
 use Illuminate\Console\Command;
 
-class SupervisorExampleProcess extends Command
+class SupervisorStartSubscribeWordCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'app:supervisor-process';
+    protected $signature = 'app:supervisor-start-subscribe-word-command';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Command description';
 
-    /**
-     * Execute the console command.
-     */
     public function handle(SuperVisorService $service)
     {
         $process = new ProcessDTO([
-            'name' => 'redisSubscribe',
-            'command' => 'php /var/www/html/artisan app:redis-subscribe',
-            'number' => 1
+            'name' => 'SubscribeWord',
+            'command' => 'php /var/www/html/artisan app:subscribe-word-command',
+            'number' => 10
         ]);
+
         $hasSection = $service->hasSection($process->getName());
         if ($hasSection === false) {
             $service->addProcessesConfig($process);

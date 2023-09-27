@@ -1,18 +1,20 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Word;
 
+use App\Services\SuperVisor\SuperVisorService;
+use App\Services\Word\WordConsumer;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
-class Test extends Command
+class SubscribeWordCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:test';
+    protected $signature = 'app:subscribe-word-command';
 
     /**
      * The console command description.
@@ -24,9 +26,8 @@ class Test extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(WordConsumer $consumer)
     {
-        $this->info(Carbon::now());
-        $this->info(Carbon::now()->addMinute(5));
+        $consumer->handle();
     }
 }
