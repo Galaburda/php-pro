@@ -2,46 +2,40 @@
 
 namespace App\Services\Rabbit\Messages;
 
-class CategoryCreateMessage implements \JsonSerializable
+use App\Enums\Lang;
+use Carbon\Carbon;
+
+
+class CategoryCreateMessage extends BaseMessage
 {
-    public function __construct(
-        protected string $name,
-        protected int $createdAt,
-        protected int $updatedAt,
-    ) {
+    // protected string $name;
+    protected Carbon $createdAt;
+    protected Carbon $updatedAt;
+    //protected Lang $lang;
+
+//public function __construct(object $data)
+//{
+//    parent::__construct($data);
+//    $this->lang = Carbon::createFromTimestamp();
+//}
+
+    public function getLang(): Lang
+    {
+        return $this->lang;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return int
-     */
     public function getCreatedAt(): int
     {
         return $this->createdAt;
     }
 
-    /**
-     * @return int
-     */
     public function getUpdatedAt(): int
     {
         return $this->updatedAt;
-    }
-
-
-    function jsonSerialize(): array
-    {
-        return [
-            'name' => $this->name,
-            'createdAt' => $this->createdAt,
-            'updatedAt' => $this->updatedAt,
-        ];
     }
 }

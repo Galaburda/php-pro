@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Book;
 
-use App\Services\Books\Rebbit\SendBookCreateService;
-use App\Services\SuperVisor\ProcessDTO;
+use App\Services\Rabbit\Publish\SendBookCreateService;
 use App\Services\SuperVisor\SuperVisorService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -29,14 +28,14 @@ class PublishMessageBookCreateCommand extends Command
      */
     public function handle(
         SendBookCreateService $service,
-        SuperVisorService $superVisorService,
+        //SuperVisorService $superVisorService,
     ) {
-        $timeExecution = Carbon::now()->addMinute(1);
+        // $timeExecution = Carbon::now()->addMinute(1);
 
-        while ($timeExecution > Carbon::now()) {
+        // while ($timeExecution > Carbon::now()) {
             $service->handle();
-        }
+        // }
 
-        $superVisorService->stopProcesses('StartPublishMessageBook');
+        //$superVisorService->stopProcesses('StartPublishMessageBook');
     }
 }

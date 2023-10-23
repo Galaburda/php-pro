@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Category;
 
 use App\Services\Rabbit\Publish\SendCreateCategoryService;
 use Illuminate\Console\Command;
