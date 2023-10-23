@@ -36,6 +36,11 @@ RUN docker-php-ext-install pcntl
 RUN docker-php-ext-install zip
 RUN docker-php-ext-install bcmath
 
+# Умова для інсталяції xdebug в залежності від змінної ENVIRONMENT
+RUN if [ "$ENVIRONMENT" = "local" ]; then \
+      pecl install xdebug && docker-php-ext-enable xdebug; \
+    fi
+
 # Перевіряємо наявність групи www-data перед створенням
 RUN if ! getent group www-data >/dev/null; then \
       addgroup -g ${GROUP_ID} www-data; \
