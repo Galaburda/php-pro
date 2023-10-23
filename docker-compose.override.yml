@@ -8,10 +8,12 @@ services:
       context: .
       dockerfile: docker/php-fpm/Dockerfile
       args:
-        ENVIRONMENT: development
+        ENVIRONMENT: local
         GROUP_ID: 1000
         USER_ID: 1000
-    #це порт через який буде отримано доступ до цього контейнера  (порт слухає ззовні/порт слухає в середині себе)
+    environment:
+      SUPERVISOR_USER: ${SUPERVISOR_USER}
+      SUPERVISOR_PASSWORD: ${SUPERVISOR_PASSWORD}
     ports:
       - "9005:9001"
 
