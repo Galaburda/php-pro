@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dbe2a856fae3b49f30f5d06242e1125c",
+
+
+    "content-hash": "085544c242438f7b9d1cdcd5bfa36df9",
+
+
     "packages": [
         {
             "name": "brick/math",
@@ -4836,6 +4840,7 @@
             ],
             "support": {
                 "issues": "https://github.com/srmklive/laravel-paypal/issues",
+
                 "source": "https://github.com/srmklive/laravel-paypal/tree/3.0.22"
             },
             "time": "2023-08-22T20:11:26+00:00"
@@ -4897,9 +4902,11 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
+
                 "source": "https://github.com/stripe/stripe-php/tree/v10.21.0"
             },
             "time": "2023-08-11T00:23:24+00:00"
+
         },
         {
             "name": "supervisorphp/configuration",

@@ -29,14 +29,15 @@ class UserLoginService
 
         return $this->userRepository->getById($id);
     }
+
     public function getById(int $id): UsersIterators
     {
         return $this->userRepository->getById($id);
     }
 
+
     public function getToken(): PersonalAccessTokenResult
     {
         return $this->authService->createToken();
     }
-
 }
