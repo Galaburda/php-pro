@@ -2,7 +2,7 @@
 
 namespace App\Services\Books;
 
-use App\Services\Books\Rebbit\BookCreateMessageDTO;
+use App\Services\Rabbit\Messages\BookCreateMessageDTO;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 

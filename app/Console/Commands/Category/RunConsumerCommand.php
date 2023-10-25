@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\category;
 
-use App\Services\Rabbit\Subscribe\Consumers\CreateBookConsumer;
+use App\Enums\Queue;
+use App\Services\Rabbit\Subscribe\AmqpBaseConsumerService;
 use Illuminate\Console\Command;
 
-class SubscribeBookCreateCommand extends Command
+class RunConsumerCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:subscribe-book-create-command';
+    protected $signature = 'run-command';
 
     /**
      * The console command description.
@@ -24,8 +25,8 @@ class SubscribeBookCreateCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(CreateBookConsumer $consumer)
+    public function handle(AmqpBaseConsumerService $service)
     {
-        $consumer->handle();
+        $service->handle(Queue::CREATE_BOOK_QUEUE);
     }
 }

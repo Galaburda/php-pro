@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Book;
 
-use App\Services\Rabbit\Subscribe\Consumers\CreateBookConsumer;
 use Illuminate\Console\Command;
 
-class SubscribeBookCreateCommand extends Command
+class CreateBookCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:subscribe-book-create-command';
+    protected $signature = 'app:create-book-command';
 
     /**
      * The console command description.
@@ -24,8 +23,8 @@ class SubscribeBookCreateCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(CreateBookConsumer $consumer)
+    public function handle()
     {
-        $consumer->handle();
+        //
     }
 }
