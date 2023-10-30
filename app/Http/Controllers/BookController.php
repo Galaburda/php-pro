@@ -13,6 +13,7 @@ use App\Repositories\Books\BookIndexDTO;
 use App\Repositories\Books\BooksStoreDTO;
 use App\Repositories\Books\BookUpdateDTO;
 use App\Services\Books\BooksService;
+use App\Services\Books\BookViewsByHourCounterService;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Books\CacheService;
 
@@ -22,6 +23,7 @@ class BookController extends Controller
     public function __construct(
         protected BooksService $booksService,
         protected CacheService $cacheService,
+        protected BookViewsByHourCounterService $bookViewsByHourCounterService,
     ) {
     }
 
@@ -98,7 +100,7 @@ class BookController extends Controller
     public function show(BookRequest $request, string $id)
     {
         $request->validated();
-
+        $this->bookViewsByHourCounterService->handel($id);
         $bookIterator = $this->booksService->getById($id);
 
         return new BookResource($bookIterator);
